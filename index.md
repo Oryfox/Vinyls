@@ -1,37 +1,17 @@
-## Welcome to GitHub Pages
+## Oryfox/Vinyls
 
-You can use the [editor on GitHub](https://github.com/Oryfox/Vinyls/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Vinyls is an easy to use Java software for saving your Vinyl Records in a clear user interface.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Why do I need any software like this?
 
-### Markdown
+If you like collecting and listening to your Vinyl Records you may have encountered the problem of mess. The more records you have, the harder it is to keep overview. This is where Vinyls is going to help you!
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Benefits
 
-```markdown
-Syntax highlighted code block
+- Runs on almost any Desktop platform that supports Java.
+- Make use of the LastFM API and receive cover images and song names automatically!
+- Enable the YouTube Data API and open the right music videos with a single click! You can also listen to the song directly in Vinyls!
+- Using the Genius API allows you to lookup lyrics for a song with a single click or search for songs on Genius!
+- Export your library in the CSV format to open it in a spreadsheet software.
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Oryfox/Vinyls/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+Vinyls works offline only on your computer. You don't need another account or password!
