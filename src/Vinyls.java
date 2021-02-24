@@ -735,6 +735,16 @@ public class Vinyls {
                 }
             }
             break;
+            case "v0.6": {
+                contents.put("version", "v1.0");
+                try {
+                    FileWriter writer = new FileWriter(contentsJSON);
+                    writer.write(contents.toString());
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         if (!contents.getString("version").equals(version)) updateDatabase();
     }
