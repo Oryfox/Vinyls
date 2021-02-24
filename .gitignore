@@ -4,3 +4,6 @@ src/.DS_Store
 out/
 *.webm
 *.wav
+/HopIn/HopIn.iml
+/src/META-INF/
+/.idea/
