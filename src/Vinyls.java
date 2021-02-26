@@ -31,7 +31,7 @@ public class Vinyls {
 
     static boolean lowSpecMode = false;
 
-    static File home = new File(System.getProperty("user.home") + "/.vinyls");
+    static File home = new File(System.getProperty("user.home") + "/.github-oryfox/vinyls");
     static File lib = new File(home.getAbsolutePath() + "/lib");
     static File oAuthHome = new File(home.getAbsolutePath() + "/oauth");
     static File contentsJSON = new File(home.getAbsolutePath() + "/contents.json");
@@ -251,6 +251,38 @@ public class Vinyls {
     private static void checkAndRepairFiles() {
         if (!home.exists()) {
             home.mkdirs();
+            File oldHome = new File(System.getProperty("user.home") + "/.vinyls");
+            if (oldHome.exists()) {
+                try {
+                    Files.move(new File(oldHome.getAbsolutePath() + "/contents.json").toPath(), contentsJSON.toPath());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    coverDownsized.mkdirs();
+                    for (File file : Objects.requireNonNull(new File(oldHome.getAbsolutePath() + "/cover/downsized").listFiles())) {
+                        Files.move(file.toPath(), new File(coverDownsized + "/" + file.getName()).toPath());
+                    }
+                    Files.delete(new File(oldHome.getAbsolutePath() + "/cover/downsized").toPath());
+
+                    for (File file : Objects.requireNonNull(new File(oldHome.getAbsolutePath() + "/cover").listFiles())) {
+                        Files.move(file.toPath(), new File(cover + "/" + file.getName()).toPath());
+                    }
+                    Files.delete(new File(oldHome.getAbsolutePath() + "/cover").toPath());
+
+                    for (File file : Objects.requireNonNull(oldHome.listFiles())) {
+                        if (file.isDirectory()) {
+                            for (File f : Objects.requireNonNull(file.listFiles())) {
+                                Files.delete(f.toPath());
+                            }
+                        }
+                        Files.delete(file.toPath());
+                    }
+                    Files.delete(oldHome.toPath());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             System.out.println("Created home");
         }
         if (!contentsJSON.exists()) {
