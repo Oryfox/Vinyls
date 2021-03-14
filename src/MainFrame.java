@@ -1,16 +1,3 @@
-/*Vinyls - Java software to manage vinyl records by collecting their attributes, cover arts and enjoying various other features.
-    Copyright (C) 2021  Semih Kaiser
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.*/
-
 import com.thizzer.jtouchbar.JTouchBar;
 import com.thizzer.jtouchbar.item.TouchBarItem;
 import com.thizzer.jtouchbar.item.view.TouchBarButton;
@@ -205,8 +192,10 @@ public class MainFrame extends JFrame implements ComponentListener {
             this.add(new File());
             this.add(new View());
 
-            JMenu about = new JMenu(Vinyls.bundle.getString("help"));
-            about.add(new Item(Vinyls.bundle.getString("about") + " Vinyls", e -> new AboutBox()));
+            JMenu about = new JMenu(Vinyls.bundle.getString("about"));
+            about.add(new Item("Version: " + Vinyls.version, null, false));
+            about.add(new Item("Copyright (C) 2021  Semih Kaiser", null, false));
+            about.add(new Item(Vinyls.bundle.getString("about.usedSoftware"), e -> new DependencyOverview()));
             about.add(new JSeparator());
             about.add(new Item(Vinyls.bundle.getString("settings"), e -> new Settings()));
             this.add(about);
@@ -341,9 +330,14 @@ public class MainFrame extends JFrame implements ComponentListener {
         }
 
         public static class Item extends JMenuItem {
-            public Item(String name, ActionListener action) {
+            public Item(String name, ActionListener action, boolean enabled) {
                 super(name);
                 this.addActionListener(action);
+                this.setEnabled(enabled);
+            }
+
+            public Item(String name, ActionListener action) {
+                this(name,action,true);
             }
         }
     }
