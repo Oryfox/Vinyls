@@ -593,10 +593,6 @@ public class Detail extends JPanel {
                 super(Vinyls.bundle.getString("edit"));
                 this.add(new MainFrame.MenuBar.Item("Favorite", e -> {
                     record.favorite = !record.favorite;
-                    if (!record.favorite) {
-                        Record.visibleRecords.remove(record);
-                        ((AlbumPanel) ((ScrollPane) MainFrame.panel).getViewport().getView()).remove(itemPanel);
-                    }
                     itemPanel.repaint();
                     Vinyls.saveJSONData();
                 }));

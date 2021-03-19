@@ -3,14 +3,7 @@ import com.thizzer.jtouchbar.item.TouchBarItem;
 import com.thizzer.jtouchbar.item.view.TouchBarButton;
 
 import javax.swing.*;
-import java.awt.Toolkit;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -195,9 +188,9 @@ public class MainFrame extends JFrame implements ComponentListener {
             JMenu about = new JMenu(Vinyls.bundle.getString("about"));
             about.add(new Item("Version: " + Vinyls.version, null, false));
             about.add(new Item("Copyright (C) 2021  Semih Kaiser", null, false));
-            about.add(new Item(Vinyls.bundle.getString("about.usedSoftware"), e -> new DependencyOverview()));
+            about.add(new Item(Vinyls.bundle.getString("about.usedSoftware"), e -> new DependencyOverview(), Icons.heart));
             about.add(new JSeparator());
-            about.add(new Item(Vinyls.bundle.getString("settings"), e -> new Settings()));
+            about.add(new Item(Vinyls.bundle.getString("settings"), e -> new Settings(), Icons.settings));
             this.add(about);
 
             this.setBorderPainted(false);
@@ -210,11 +203,11 @@ public class MainFrame extends JFrame implements ComponentListener {
                 this.add(new Item(Vinyls.bundle.getString("newRecord"), e -> {
                     if (RecordCreation.frame != null) RecordCreation.frame.setVisible(false);
                     new RecordCreation();
-                }));
+                }, Icons.plus));
 
                 this.add(new JSeparator());
 
-                this.add(new Item(Vinyls.bundle.getString("menubar.exportCSV"), e -> new SongTable.CSVExportWindow()));
+                this.add(new Item(Vinyls.bundle.getString("menubar.exportCSV"), e -> new SongTable.CSVExportWindow(), Icons.grid));
 
                 if (Vinyls.mac) {
                     this.add(new Item(Vinyls.bundle.getString("menubar.saveBackup"), e -> {
@@ -316,7 +309,7 @@ public class MainFrame extends JFrame implements ComponentListener {
 
                 this.add(new JSeparator());
 
-                this.add(new Item(Vinyls.bundle.getString("quit"), e -> System.exit(0)));
+                this.add(new Item(Vinyls.bundle.getString("quit"), e -> System.exit(0), Icons.exit));
             }
         }
 
@@ -324,8 +317,8 @@ public class MainFrame extends JFrame implements ComponentListener {
             public View() {
                 super(Vinyls.bundle.getString("menubar.view"));
 
-                this.add(new Item(Vinyls.bundle.getString("menubar.stats"), e -> new Stats()));
-                this.add(new Item(Vinyls.bundle.getString("menubar.vinylOfTheDay"), e -> VinylOfTheDay.fenster.setVisible(true)));
+                this.add(new Item(Vinyls.bundle.getString("menubar.stats"), e -> new Stats(), Icons.stats));
+                this.add(new Item(Vinyls.bundle.getString("menubar.vinylOfTheDay"), e -> VinylOfTheDay.fenster.setVisible(true), Icons.vinylOfTheDay));
             }
         }
 
@@ -338,6 +331,11 @@ public class MainFrame extends JFrame implements ComponentListener {
 
             public Item(String name, ActionListener action) {
                 this(name,action,true);
+            }
+
+            public Item(String name, ActionListener action, ImageIcon icon) {
+                super(name, icon);
+                this.addActionListener(action);
             }
         }
     }
