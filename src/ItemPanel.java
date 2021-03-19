@@ -14,8 +14,8 @@ public class ItemPanel extends JPanel implements MouseListener {
     private final JLabel titleLabel;
     private final JLabel artistLabel;
 
-    public static ImageIcon star = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Vinyls.class.getResource("gui/icons/star.png")).getScaledInstance(22,22,Image.SCALE_SMOOTH));
-    public static ImageIcon starFull = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Vinyls.class.getResource("gui/icons/star_full.png")).getScaledInstance(22,22,Image.SCALE_SMOOTH));
+    public static ImageIcon star = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Vinyls.class.getResource("icons/star.png")).getScaledInstance(22,22,Image.SCALE_SMOOTH));
+    public static ImageIcon starFull = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Vinyls.class.getResource("icons/star_full.png")).getScaledInstance(22,22,Image.SCALE_SMOOTH));
 
     public ItemPanel(Record record)
     {

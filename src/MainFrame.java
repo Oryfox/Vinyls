@@ -43,7 +43,7 @@ public class MainFrame extends JFrame implements ComponentListener {
         this.setBounds(Toolkit.getDefaultToolkit().getScreenSize().width / 2 - width / 2, Toolkit.getDefaultToolkit().getScreenSize().height / 2 - height / 2, width, height);
         this.setMinimumSize(new Dimension(450, 340));
         this.setJMenuBar(new MenuBar());
-        this.setIconImage(Vinyls.icon = Toolkit.getDefaultToolkit().getImage(Vinyls.class.getResource("gui/icons/taskbar.png")));
+        this.setIconImage(Vinyls.icon = Toolkit.getDefaultToolkit().getImage(Vinyls.class.getResource("icons/app.png")));
 
         this.setBackground(Color.white);
         this.getContentPane().setBackground(Color.white);
