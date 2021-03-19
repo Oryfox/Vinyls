@@ -14,6 +14,7 @@ public class DependencyOverview extends JFrame {
             frame.setVisible(true);
             return;
         }
+        this.setIconImage(Vinyls.icon);
         this.setSize(400,600);
 
         JPanel dependencyHolder = new JPanel(new GridLayout(0, 1));
