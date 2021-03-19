@@ -8,7 +8,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
-import java.net.HttpURLConnection;
+import java.net.URI;
+import java.nio.file.Files;
 
 public class Settings extends JFrame {
 
@@ -33,6 +34,7 @@ public class Settings extends JFrame {
         nonGenius.add(experimentalFeatures());
         nonGenius.add(youtubeApiField());
         nonGenius.add(lastFMApiField());
+        nonGenius.add(ffmpegbinaryButtons());
         contentPane.add(nonGenius);
 
         contentPane.add(geniusSet());
@@ -160,6 +162,24 @@ public class Settings extends JFrame {
 
         panel.add(textField, BorderLayout.CENTER);
         panel.add(button,  BorderLayout.EAST);
+
+        return panel;
+    }
+
+    private JPanel ffmpegbinaryButtons() {
+        JPanel panel = new JPanel(new GridLayout(1,0));
+
+        panel.setOpaque(false);
+
+        panel.add(new RoundedButton(Vinyls.bundle.getString("ffmpeg.add"), evt -> addFFmpegLibrary(), OryColors.GREEN,16));
+        panel.add(new RoundedButton(Vinyls.bundle.getString("ffmpeg.remove"), evt -> removeFFmpegLibrary(), OryColors.RED,16));
+        panel.add(new RoundedButton(Vinyls.bundle.getString("ffmpeg.get"), evt -> {
+            try {
+                Desktop.getDesktop().browse(URI.create("http://ffmpeg.org/download.html#get-packages"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }, OryColors.YELLOW,16));
 
         return panel;
     }
@@ -312,5 +332,32 @@ public class Settings extends JFrame {
         panel.add(buttonHelp);
 
         return panel;
+    }
+
+    private void addFFmpegLibrary() {
+        FileDialog fileDialog = new FileDialog(this, "Select FFmpeg binary");
+        fileDialog.setMultipleMode(false);
+        fileDialog.setDirectory(System.getProperty("user.home") + "/Downloads/");
+        fileDialog.setVisible(true);
+        try {
+            Files.copy(fileDialog.getFiles()[0].toPath(), Vinyls.ffmpeg.toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        SongActions.ffmpegExists = true;
+        this.setVisible(false);
+    }
+
+    private void removeFFmpegLibrary() {
+        int code = JOptionPane.showConfirmDialog(this, Vinyls.bundle.getString("ffmpeg.confirm"), Vinyls.bundle.getString("ffmpeg.confirm"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (code == JOptionPane.YES_OPTION) {
+            try {
+                Files.deleteIfExists(Vinyls.ffmpeg.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            SongActions.ffmpegExists = false;
+            this.setVisible(false);
+        }
     }
 }
