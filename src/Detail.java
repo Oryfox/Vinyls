@@ -196,7 +196,28 @@ public class Detail extends JPanel {
 
         TouchBarButton delete = new TouchBarButton();
         delete.setTitle(Vinyls.bundle.getString("delete"));
-        delete.setAction(touchBarView -> new DeleteWindow(itemPanel));
+        delete.setAction(touchBarView -> new Thread(() -> {
+            int code = JOptionPane.showConfirmDialog(MainFrame.frame, itemPanel.record.title + " " + Vinyls.bundle.getString("delete").toLowerCase() + "?",itemPanel.record.title + " " + Vinyls.bundle.getString("delete").toLowerCase() + "?", JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+            if (code == JOptionPane.YES_OPTION) {
+                Detail.closeDetails();
+                File cover = new File(Vinyls.cover.getAbsolutePath() + "/" + itemPanel.id + ".png");
+                File coverKlein = new File(Vinyls.coverDownsized.getAbsolutePath() + "/" + itemPanel.id + ".png");
+                Record.remove(itemPanel.id);
+                if (MainFrame.panel instanceof ScrollPane) {
+                    ((AlbumPanel) ((ScrollPane) MainFrame.panel).getViewport().getView()).remove(itemPanel);
+                    SwingUtilities.updateComponentTreeUI(((ScrollPane) MainFrame.panel).getViewport().getView());
+                } else {
+                    MainFrame.update();
+                }
+                Vinyls.saveJSONData();
+                try {
+                    Files.delete(cover.toPath());
+                    Files.delete(coverKlein.toPath());
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start());
         jTouchBar.addItem(new TouchBarItem("delete", delete, true));
 
         jTouchBar.addItem(new TouchBarItem(TouchBarItem.NSTouchBarItemIdentifierFlexibleSpace));
@@ -416,151 +437,6 @@ public class Detail extends JPanel {
         }
     }
 
-    public static class DeleteWindow extends JFrame {
-
-        public static JFrame frame;
-        public static boolean offen = false;
-        static ItemPanel itemPanel;
-
-        public DeleteWindow(ItemPanel itemPanel) {
-            super(itemPanel.record.title + " " + Vinyls.bundle.getString("delete").toLowerCase() + "?");
-            this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-            this.setResizable(false);
-            this.setBounds((Toolkit.getDefaultToolkit().getScreenSize().width / 2) - 150, (Toolkit.getDefaultToolkit().getScreenSize().height / 2) - 100, 300, 177);
-            this.setLayout(null);
-
-            DeleteWindow.itemPanel = itemPanel;
-
-            this.add(label());
-            this.add(yesButton());
-            this.add(noButton());
-
-            this.setAlwaysOnTop(true);
-            this.setVisible(true);
-            offen = true;
-
-            this.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosed(WindowEvent e) {
-                    super.windowClosed(e);
-                    offen = false;
-                }
-            });
-            this.addWindowFocusListener(new WindowFocusListener() {
-                @Override
-                public void windowGainedFocus(WindowEvent e) {
-
-                }
-
-                @Override
-                public void windowLostFocus(WindowEvent e) {
-                    if (offen) toFront();
-                }
-            });
-
-            frame = this;
-
-            if (Vinyls.mac) {
-                JTouchBar jTouchBar = getTouchBar();
-                jTouchBar.show(frame);
-            }
-        }
-
-        private JTouchBar getTouchBar() {
-            JTouchBar jTouchBar = new JTouchBar();
-            jTouchBar.setCustomizationIdentifier("Borealis TouchBar");
-
-            jTouchBar.addItem(new TouchBarItem(TouchBarItem.NSTouchBarItemIdentifierFlexibleSpace));
-
-            TouchBarButton no = new TouchBarButton();
-            no.setTitle(Vinyls.bundle.getString("no"));
-            no.setAction(touchBarView -> {
-                offen = false;
-                frame.setVisible(false);
-            });
-            jTouchBar.addItem(new TouchBarItem("no", no, true));
-
-            TouchBarButton yes = new TouchBarButton();
-            yes.setTitle(Vinyls.bundle.getString("yes"));
-            yes.setAction(touchBarView -> {
-                offen = false;
-                Detail.closeDetails();
-                frame.setVisible(false);
-                java.io.File cover = new java.io.File(Vinyls.cover.getAbsolutePath() + "/" + itemPanel.id + ".png");
-                java.io.File coverKlein = new java.io.File(Vinyls.coverDownsized.getAbsolutePath() + "/" + itemPanel.id + ".png");
-                Record.remove(itemPanel.id);
-                if (MainFrame.panel instanceof ScrollPane) {
-                    ((AlbumPanel) ((ScrollPane) MainFrame.panel).getViewport().getView()).remove(itemPanel);
-                    SwingUtilities.updateComponentTreeUI(((ScrollPane) MainFrame.panel).getViewport().getView());
-                } else {
-                    MainFrame.update();
-                }
-                Vinyls.saveJSONData();
-                try {
-                    Files.delete(cover.toPath());
-                    Files.delete(coverKlein.toPath());
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            });
-            jTouchBar.addItem(new TouchBarItem("yes", yes, true));
-
-            jTouchBar.addItem(new TouchBarItem(TouchBarItem.NSTouchBarItemIdentifierFlexibleSpace));
-
-            return jTouchBar;
-        }
-
-        private static JLabel label() {
-            JLabel label = new JLabel(Vinyls.bundle.getString("detail.sureToDelete"), SwingConstants.CENTER);
-            label.setBounds(5, 5, 290, 50);
-            label.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
-            label.setForeground(new Color(0x8C0001));
-
-            return label;
-        }
-
-        private static JButton yesButton() {
-            JButton button = new JButton(Vinyls.bundle.getString("yes"));
-            button.setBounds(5, 70, 145, 80);
-            button.setFont(new Font("Arial", Font.BOLD, 18));
-            button.addActionListener(e -> {
-                offen = false;
-                Detail.closeDetails();
-                frame.setVisible(false);
-                java.io.File cover = new java.io.File(Vinyls.cover.getAbsolutePath() + "/" + itemPanel.id + ".png");
-                java.io.File coverKlein = new java.io.File(Vinyls.coverDownsized.getAbsolutePath() + "/" + itemPanel.id + ".png");
-                Record.remove(itemPanel.id);
-                if (MainFrame.panel instanceof ScrollPane) {
-                    ((AlbumPanel) ((ScrollPane) MainFrame.panel).getViewport().getView()).remove(itemPanel);
-                    SwingUtilities.updateComponentTreeUI(((ScrollPane) MainFrame.panel).getViewport().getView());
-                } else {
-                    MainFrame.update();
-                }
-                Vinyls.saveJSONData();
-                try {
-                    Files.delete(cover.toPath());
-                    Files.delete(coverKlein.toPath());
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            });
-
-            return button;
-        }
-
-        private static JButton noButton() {
-            JButton button = new JButton(Vinyls.bundle.getString("no"));
-            button.setFont(new Font("Arial", Font.BOLD, 18));
-            button.setBounds(150, 70, 145, 80);
-            button.addActionListener(e -> {
-                offen = false;
-                frame.setVisible(false);
-            });
-
-            return button;
-        }
-    }
-
     public static class MenuBar extends JMenuBar {
 
         public MenuBar() {
@@ -583,7 +459,28 @@ public class Detail extends JPanel {
                     if (!InformationEdit.offen) new InformationEdit(itemPanel);
                 }));
 
-                this.add(new MainFrame.MenuBar.Item(Vinyls.bundle.getString("delete"), e -> new DeleteWindow(itemPanel)));
+                this.add(new MainFrame.MenuBar.Item(Vinyls.bundle.getString("delete"), e -> {
+                    int code = JOptionPane.showConfirmDialog(MainFrame.frame, itemPanel.record.title + " " + Vinyls.bundle.getString("delete").toLowerCase() + "?",itemPanel.record.title + " " + Vinyls.bundle.getString("delete").toLowerCase() + "?", JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                    if (code == JOptionPane.YES_OPTION) {
+                        Detail.closeDetails();
+                        java.io.File cover = new java.io.File(Vinyls.cover.getAbsolutePath() + "/" + itemPanel.id + ".png");
+                        java.io.File coverKlein = new java.io.File(Vinyls.coverDownsized.getAbsolutePath() + "/" + itemPanel.id + ".png");
+                        Record.remove(itemPanel.id);
+                        if (MainFrame.panel instanceof ScrollPane) {
+                            ((AlbumPanel) ((ScrollPane) MainFrame.panel).getViewport().getView()).remove(itemPanel);
+                            SwingUtilities.updateComponentTreeUI(((ScrollPane) MainFrame.panel).getViewport().getView());
+                        } else {
+                            MainFrame.update();
+                        }
+                        Vinyls.saveJSONData();
+                        try {
+                            Files.delete(cover.toPath());
+                            Files.delete(coverKlein.toPath());
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }));
 
                 if (Vinyls.mac) this.add(new MainFrame.MenuBar.Item("Download ", e -> {
                     if (record.songs != null & record.getThisSongCount() > 0) {
