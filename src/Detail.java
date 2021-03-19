@@ -564,28 +564,10 @@ public class Detail extends JPanel {
     public static class MenuBar extends JMenuBar {
 
         public MenuBar() {
-            this.add(new File());
-            this.add(new MenuBar.Edit());
-            this.add(new View());
-        }
-
-        public static class File extends JMenu {
-            public File() {
-                super(Vinyls.bundle.getString("menubar.file"));
-                this.add(new MainFrame.MenuBar.Item(Vinyls.bundle.getString("newRecord"), e -> {
-                    closeDetails();
-                    if (RecordCreation.frame != null) RecordCreation.frame.setVisible(false);
-                    new RecordCreation();
-                }));
-
-                this.add(new JSeparator());
-
-                this.add(new MainFrame.MenuBar.Item(Vinyls.bundle.getString("menubar.exportCSV"), e -> new SongTable.CSVExportWindow()));
-
-                this.add(new JSeparator());
-
-                this.add(new MainFrame.MenuBar.Item(Vinyls.bundle.getString("quit"), e -> System.exit(0)));
-            }
+            this.add(new MainFrame.MenuBar.File());
+            this.add(new Edit());
+            this.add(new MainFrame.MenuBar.View());
+            this.add(new MainFrame.MenuBar.About());
         }
 
         public static class Edit extends JMenu {
@@ -593,10 +575,6 @@ public class Detail extends JPanel {
                 super(Vinyls.bundle.getString("edit"));
                 this.add(new MainFrame.MenuBar.Item("Favorite", e -> {
                     record.favorite = !record.favorite;
-                    if (!record.favorite) {
-                        Record.visibleRecords.remove(record);
-                        ((AlbumPanel) ((ScrollPane) MainFrame.panel).getViewport().getView()).remove(itemPanel);
-                    }
                     itemPanel.repaint();
                     Vinyls.saveJSONData();
                 }));
@@ -654,14 +632,6 @@ public class Detail extends JPanel {
                         JOptionPane.showMessageDialog(MainFrame.frame, Vinyls.bundle.getString("noRegisteredSongs"), Vinyls.bundle.getString("noRegisteredSongs.title"), JOptionPane.WARNING_MESSAGE);
                     }
                 }));
-            }
-        }
-
-        public static class View extends JMenu {
-            public View() {
-                super(Vinyls.bundle.getString("menubar.view"));
-
-                this.add(new MainFrame.MenuBar.Item(Vinyls.bundle.getString("menubar.stats"), e -> new Stats()));
             }
         }
     }

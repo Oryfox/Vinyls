@@ -40,7 +40,7 @@ public class RecordCreation extends JFrame {
     private BufferedImage image;
     private ArrayList<String> songList;
 
-    protected static ImageIcon cloudIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Vinyls.class.getResource("gui/icons/cloud.png")).getScaledInstance(33, 33, Image.SCALE_SMOOTH));
+    protected static ImageIcon cloudIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Vinyls.class.getResource("icons/cloud.png")).getScaledInstance(33, 33, Image.SCALE_SMOOTH));
 
     public RecordCreation() {
         super(Vinyls.bundle.getString("newRecord.addNewRecord"));
