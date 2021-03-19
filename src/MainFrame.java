@@ -184,14 +184,7 @@ public class MainFrame extends JFrame implements ComponentListener {
         public MenuBar() {
             this.add(new File());
             this.add(new View());
-
-            JMenu about = new JMenu(Vinyls.bundle.getString("about"));
-            about.add(new Item("Version: " + Vinyls.version, null, false));
-            about.add(new Item("Copyright (C) 2021  Semih Kaiser", null, false));
-            about.add(new Item(Vinyls.bundle.getString("about.usedSoftware"), e -> new DependencyOverview(), Icons.heart));
-            about.add(new JSeparator());
-            about.add(new Item(Vinyls.bundle.getString("settings"), e -> new Settings(), Icons.settings));
-            this.add(about);
+            this.add(new About());
 
             this.setBorderPainted(false);
         }
@@ -201,6 +194,7 @@ public class MainFrame extends JFrame implements ComponentListener {
             public File() {
                 super(Vinyls.bundle.getString("menubar.file"));
                 this.add(new Item(Vinyls.bundle.getString("newRecord"), e -> {
+                    if (Detail.displayed) Detail.closeDetails();
                     if (RecordCreation.frame != null) RecordCreation.frame.setVisible(false);
                     new RecordCreation();
                 }, Icons.plus));
@@ -319,6 +313,18 @@ public class MainFrame extends JFrame implements ComponentListener {
 
                 this.add(new Item(Vinyls.bundle.getString("menubar.stats"), e -> new Stats(), Icons.stats));
                 this.add(new Item(Vinyls.bundle.getString("menubar.vinylOfTheDay"), e -> VinylOfTheDay.fenster.setVisible(true), Icons.vinylOfTheDay));
+            }
+        }
+
+        public static class About extends JMenu {
+            public About() {
+                super(Vinyls.bundle.getString("about"));
+
+                this.add(new Item("Version: " + Vinyls.version, null, false));
+                this.add(new Item("Copyright (C) 2021  Semih Kaiser", null, false));
+                this.add(new Item(Vinyls.bundle.getString("about.usedSoftware"), e -> new DependencyOverview(), Icons.heart));
+                this.add(new JSeparator());
+                this.add(new Item(Vinyls.bundle.getString("settings"), e -> new Settings(), Icons.settings));
             }
         }
 
