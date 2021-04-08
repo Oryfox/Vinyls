@@ -114,7 +114,7 @@ public class MainFrame extends JFrame implements ComponentListener {
 
     private static GridBagConstraints getSidebarConstraints() {
         GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.BOTH;
+        c.fill = GridBagConstraints.VERTICAL;
         c.gridx = 0;
         c.gridy = 0;
         c.weightx = 0;
