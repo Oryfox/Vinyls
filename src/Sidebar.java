@@ -13,12 +13,16 @@ public class Sidebar extends JPanel {
     static boolean sortByTitle = false;
     static JTextField searchField;
 
+    static boolean extended = true;
+
     public Sidebar() {
-        super(null);
+        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.setBackground(Color.white);
         this.setMinimumSize(new Dimension(200,Integer.MAX_VALUE));
         this.setPreferredSize(new Dimension(200,Integer.MAX_VALUE));
         this.setMaximumSize(new Dimension(200,Integer.MAX_VALUE));
+
+        this.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
 
         this.add(getSearchField());
 
@@ -35,10 +39,13 @@ public class Sidebar extends JPanel {
 
     //Returns the searchField for the sidebar
     private static JComponent getSearchField() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(BorderFactory.createEmptyBorder(20,10,10,20));
+        panel.setPreferredSize(new Dimension(Integer.MAX_VALUE,65));
+        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE,65));
+        panel.setOpaque(false);
         JRoundedTextField textField = new JRoundedTextField(10);
         new GhostText(textField, Vinyls.bundle.getString("sidebar.search"), Color.gray);
-        textField.setBounds(20, 20, 160, 30);
-        textField.setPreferredSize(new Dimension(Integer.MAX_VALUE,30));
         textField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -61,7 +68,8 @@ public class Sidebar extends JPanel {
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
-        return searchField = textField;
+        panel.add(searchField = textField);
+        return panel;
     }
 
     private static JLabel collection() {
@@ -72,8 +80,9 @@ public class Sidebar extends JPanel {
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
-        label.setBounds(20, 90, 150, 20);
+        label.setPreferredSize(new Dimension(0, 20));
         label.setForeground(new Color(0x054C29));
+        label.setBackground(Color.red);
 
         return label;
     }
@@ -87,6 +96,7 @@ public class Sidebar extends JPanel {
             super(null);
             this.setOpaque(false);
             this.setBounds(10, 100, 180, 570);
+            this.setPreferredSize(new Dimension(180, 570));
 
             this.add(others[0] = firstAdded());
             this.add(others[1] = artist());
