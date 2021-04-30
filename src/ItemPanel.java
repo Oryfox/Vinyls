@@ -1,16 +1,3 @@
-/*Vinyls - Java software to manage vinyl records by collecting their attributes, cover arts and enjoying various other features.
-    Copyright (C) 2021  Semih Kaiser
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.*/
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -27,8 +14,8 @@ public class ItemPanel extends JPanel implements MouseListener {
     private final JLabel titleLabel;
     private final JLabel artistLabel;
 
-    public static ImageIcon star = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Vinyls.class.getResource("gui/icons/star.png")).getScaledInstance(22,22,Image.SCALE_SMOOTH));
-    public static ImageIcon starFull = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Vinyls.class.getResource("gui/icons/star_full.png")).getScaledInstance(22,22,Image.SCALE_SMOOTH));
+    public static ImageIcon star = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Vinyls.class.getResource("icons/star.png")).getScaledInstance(22,22,Image.SCALE_SMOOTH));
+    public static ImageIcon starFull = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Vinyls.class.getResource("icons/star_full.png")).getScaledInstance(22,22,Image.SCALE_SMOOTH));
 
     public ItemPanel(Record record)
     {

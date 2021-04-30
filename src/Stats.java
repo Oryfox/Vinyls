@@ -1,45 +1,46 @@
-/*Vinyls - Java software to manage vinyl records by collecting their attributes, cover arts and enjoying various other features.
-    Copyright (C) 2021  Semih Kaiser
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.*/
-
 import com.thizzer.jtouchbar.JTouchBar;
 import com.thizzer.jtouchbar.item.TouchBarItem;
 import com.thizzer.jtouchbar.item.view.TouchBarButton;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.awt.geom.RoundRectangle2D;
+import java.io.IOException;
 
 public class Stats extends JFrame implements WindowFocusListener {
 
-    static int WIDTH = 350;
-    static int HEIGHT = 150;
+    final static int WIDTH = 350;
+    final static int HEIGHT = 300;
 
-    Stats fenster;
-
-    public Stats()
-    {
+    public Stats() {
         this.setUndecorated(true);
-        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.setBounds((Toolkit.getDefaultToolkit().getScreenSize().width / 2) - (WIDTH / 2),(Toolkit.getDefaultToolkit().getScreenSize().height / 2) - (HEIGHT / 2),WIDTH,HEIGHT);
-        this.addWindowFocusListener(this);
-        this.add(new Panel());
+        this.setBackground(new Color(0, true));
+
+        JPanel panel = new JPanel(new GridLayout(0,1)) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                g.setColor(OryColors.PURPLE);
+                ((Graphics2D)g).fill(new RoundRectangle2D.Double(0,0,this.getWidth(),this.getHeight(),25,25));
+            }
+        };
+
+        panel.add(new ScorePanel(Vinyls.bundle.getString("stats.recordCount"), Record.getCount()));
+        panel.add(new ScorePanel(Vinyls.bundle.getString("stats.artistCount"), Record.getArtistCount()));
+        panel.add(new ScorePanel(Vinyls.bundle.getString("stats.songCount"), Record.getSongCount()));
+        panel.add(new RoundedButton(Vinyls.bundle.getString("close"), evt -> this.setVisible(false), OryColors.RED));
+
+        this.add(panel);
+
         this.setVisible(true);
-        fenster = this;
 
         if(Vinyls.mac) {
-            getJTouchBar().show(fenster);
+            getJTouchBar().show(this);
         }
+        this.addWindowFocusListener(this);
     }
 
     private JTouchBar getJTouchBar() {
@@ -48,89 +49,32 @@ public class Stats extends JFrame implements WindowFocusListener {
 
         TouchBarButton cancel = new TouchBarButton();
         cancel.setTitle(Vinyls.bundle.getString("close"));
-        cancel.setAction(touchBarView -> fenster.setVisible(false));
+        cancel.setAction(touchBarView -> this.setVisible(false));
         jTouchBar.addItem(new TouchBarItem("cancel", cancel, true));
 
         return jTouchBar;
     }
 
-    public static class Panel extends JPanel {
-        public Panel()
-        {
-            super(new GridLayout(0,1));
-            this.setBackground(Color.white);
-            this.add(albumCount());
-            this.add(artistCount());
-            this.add(songCount());
+    public class ScorePanel extends JPanel {
+        public ScorePanel(String text, int score) {
+            super(new BorderLayout());
+            JLabel textField = new JLabel(text + ": " + score);
+            textField.setVerticalAlignment(SwingConstants.CENTER);
+            try {
+                textField.setFont(Font.createFont(Font.TRUETYPE_FONT, Stats.class.getResourceAsStream("fonts/Sofia Pro Regular Az.otf")).deriveFont(Font.PLAIN,26));
+            } catch (FontFormatException | IOException e) {
+                e.printStackTrace();
+            }
+            this.setOpaque(false);
+            this.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+            this.add(textField, BorderLayout.CENTER);
         }
 
-        private static JPanel albumCount()
-        {
-            JPanel panel = new JPanel();
-            panel.setOpaque(false);
-            panel.setBounds(0,0,350,100);
-
-            JLabel label = new JLabel(Vinyls.bundle.getString("stats.recordCount"));
-            label.setBounds(5,0,350,50);
-            label.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
-            label.setForeground(Color.black);
-
-            JTextField textField = new JTextField(Integer.toString(Record.getCount()));
-            textField.setEditable(false);
-            textField.setBounds(5,55,340,40);
-            textField.setBackground(Color.lightGray);
-            textField.setHorizontalAlignment(JTextField.CENTER);
-
-            panel.add(label, BorderLayout.NORTH);
-            panel.add(textField, BorderLayout.SOUTH);
-
-            return panel;
-        }
-
-        private static JPanel artistCount()
-        {
-            JPanel panel = new JPanel();
-            panel.setOpaque(false);
-            panel.setBounds(0,100,350,100);
-
-            JLabel label = new JLabel(Vinyls.bundle.getString("stats.artistCount"));
-            label.setBounds(5,0,350,50);
-            label.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
-            label.setForeground(Color.black);
-
-            JTextField textField = new JTextField(Integer.toString(Record.getArtistCount()));
-            textField.setEditable(false);
-            textField.setBounds(5,55,340,40);
-            textField.setBackground(Color.lightGray);
-            textField.setHorizontalAlignment(JTextField.CENTER);
-
-            panel.add(label, BorderLayout.NORTH);
-            panel.add(textField, BorderLayout.SOUTH);
-
-            return panel;
-        }
-
-        private static JPanel songCount()
-        {
-            JPanel panel = new JPanel();
-            panel.setOpaque(false);
-            panel.setBounds(0,200,350,100);
-
-            JLabel label = new JLabel(Vinyls.bundle.getString("stats.songCount"));
-            label.setBounds(5,0,350,50);
-            label.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
-            label.setForeground(Color.black);
-
-            JTextField textField = new JTextField(Integer.toString(Record.getSongCount()));
-            textField.setEditable(false);
-            textField.setBounds(5,55,340,40);
-            textField.setBackground(Color.lightGray);
-            textField.setHorizontalAlignment(JTextField.CENTER);
-
-            panel.add(label, BorderLayout.NORTH);
-            panel.add(textField, BorderLayout.SOUTH);
-
-            return panel;
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.setColor(OryColors.BLUE);
+            ((Graphics2D)g).fill(new RoundRectangle2D.Double(10,10,this.getWidth() - 20, this.getHeight() - 20, 25,25));
         }
     }
 

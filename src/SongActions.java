@@ -1,16 +1,3 @@
-/*Vinyls - Java software to manage vinyl records by collecting their attributes, cover arts and enjoying various other features.
-    Copyright (C) 2021  Semih Kaiser
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.*/
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -79,7 +66,7 @@ public class SongActions extends JDialog implements WindowFocusListener {
 
             if (Genius2.genius != null) this.add(createLyrics());
             if (YouTube.apiKey != null && !YouTube.apiKey.equals("")) this.add(createWatchYoutube());
-            if ((Vinyls.mac | ffmpegExists) && YouTube.apiKey != null && !YouTube.apiKey.equals("")) this.add(createListenHere());
+            if (ffmpegExists && YouTube.apiKey != null && !YouTube.apiKey.equals("")) this.add(createListenHere());
         }
 
         public JPanel createLyrics() {
