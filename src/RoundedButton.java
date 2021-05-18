@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
+import java.util.Objects;
 
 public class RoundedButton extends JPanel implements MouseListener {
 
@@ -22,7 +23,7 @@ public class RoundedButton extends JPanel implements MouseListener {
 
         JLabel label = new JLabel(text, SwingConstants.CENTER);
         try {
-            Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("fonts/AkayaTelivigala-Regular.ttf"));
+            Font font = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(getClass().getResourceAsStream("fonts/AkayaTelivigala-Regular.ttf")));
             label.setFont(font.deriveFont(Font.PLAIN, fontSize));
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
@@ -46,7 +47,7 @@ public class RoundedButton extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        actionListener.actionPerformed(null);
+
     }
 
     @Override
@@ -56,7 +57,7 @@ public class RoundedButton extends JPanel implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        actionListener.actionPerformed(null);
     }
 
     @Override

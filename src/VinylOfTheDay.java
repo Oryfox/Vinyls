@@ -34,8 +34,7 @@ public class VinylOfTheDay extends JFrame implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        fenster.setVisible(false);
-        new Detail(randomSchallplatte.itemPanel);
+
     }
 
     @Override
@@ -45,7 +44,8 @@ public class VinylOfTheDay extends JFrame implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        fenster.setVisible(false);
+        new Detail(randomSchallplatte.itemPanel);
     }
 
     @Override

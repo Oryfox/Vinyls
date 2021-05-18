@@ -1,3 +1,4 @@
+import de.oryfox.genius.Genius2;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
+import java.util.Objects;
 
 public class GeniusPanel extends JPanel {
 
@@ -159,7 +161,7 @@ public class GeniusPanel extends JPanel {
                     profilePanel = null;
 
                     Genius2.logout();
-                    Sidebar.SorterPanel.others[4].getMouseListeners()[0].mouseClicked(null);
+                    Sidebar.SorterPanel.others[4].getMouseListeners()[0].mouseReleased(null);
                 });
             } else {
                 logButton.setText(Vinyls.bundle.getString("genius.login"));
@@ -248,7 +250,7 @@ public class GeniusPanel extends JPanel {
             searchField.setPreferredSize(new Dimension(500, 40));
             new GhostText(searchField, Vinyls.bundle.getString("genius.search"));
             try {
-                Font font = Font.createFont(Font.TRUETYPE_FONT, Vinyls.class.getResourceAsStream("fonts/AvenirLTProMedium.otf"));
+                Font font = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(Vinyls.class.getResourceAsStream("fonts/AvenirLTProMedium.otf")));
                 searchField.setFont(font.deriveFont(Font.PLAIN,searchField.getFont().getSize() + 6));
             } catch (FontFormatException | IOException e) {
                 e.printStackTrace();
@@ -318,11 +320,7 @@ public class GeniusPanel extends JPanel {
                 fullTitleLabel.addMouseListener(new MouseListener() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        try {
-                            Desktop.getDesktop().browse(URI.create(songUrl));
-                        } catch (IOException ioException) {
-                            ioException.printStackTrace();
-                        }
+
                     }
 
                     @Override
@@ -332,7 +330,11 @@ public class GeniusPanel extends JPanel {
 
                     @Override
                     public void mouseReleased(MouseEvent e) {
-
+                        try {
+                            Desktop.getDesktop().browse(URI.create(songUrl));
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
                     }
 
                     @Override

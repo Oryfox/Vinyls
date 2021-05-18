@@ -1,3 +1,5 @@
+import de.oryfox.genius.Genius2;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -6,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Sidebar extends JPanel {
 
@@ -16,8 +19,8 @@ public class Sidebar extends JPanel {
     public Sidebar() {
         super(null);
         this.setBackground(Color.white);
-        this.setMinimumSize(new Dimension(200,Integer.MAX_VALUE));
-        this.setPreferredSize(new Dimension(200,Integer.MAX_VALUE));
+        this.setMinimumSize(new Dimension(200, 0));
+        this.setPreferredSize(new Dimension(200,0));
         this.setMaximumSize(new Dimension(200,Integer.MAX_VALUE));
 
         this.add(getSearchField());
@@ -56,7 +59,7 @@ public class Sidebar extends JPanel {
             }
         });
         try {
-            Font font = Font.createFont(Font.TRUETYPE_FONT, Vinyls.class.getResourceAsStream("fonts/AvenirLTProMedium.otf"));
+            Font font = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(Vinyls.class.getResourceAsStream("fonts/AvenirLTProMedium.otf")));
             textField.setFont(font.deriveFont(Font.PLAIN,15));
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
@@ -67,7 +70,7 @@ public class Sidebar extends JPanel {
     private static JLabel collection() {
         JLabel label = new JLabel(Vinyls.bundle.getString("sidebar.collection"));
         try {
-            Font font = Font.createFont(Font.TRUETYPE_FONT, Vinyls.class.getResourceAsStream("fonts/Sofia Pro Regular Az.otf"));
+            Font font = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(Vinyls.class.getResourceAsStream("fonts/Sofia Pro Regular Az.otf")));
             label.setFont(font.deriveFont(Font.PLAIN, 13));
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
@@ -123,6 +126,16 @@ public class Sidebar extends JPanel {
             self.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
                     while(!Vinyls.initialized) {
                         try {
                             Thread.sleep(100);
@@ -146,16 +159,6 @@ public class Sidebar extends JPanel {
                     MainFrame.basePanel.add(MainFrame.contentPaneHolder, MainFrame.contentPaneConstraints);
 
                     SwingUtilities.updateComponentTreeUI(MainFrame.frame);
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
                 }
 
                 @Override
@@ -201,6 +204,16 @@ public class Sidebar extends JPanel {
             self.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
                     while(!Vinyls.initialized) {
                         try {
                             Thread.sleep(100);
@@ -223,16 +236,6 @@ public class Sidebar extends JPanel {
                     MainFrame.basePanel.add(MainFrame.contentPaneHolder, MainFrame.contentPaneConstraints);
 
                     SwingUtilities.updateComponentTreeUI(MainFrame.frame);
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
                 }
 
                 @Override
@@ -278,6 +281,16 @@ public class Sidebar extends JPanel {
             self.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
                     while(!Vinyls.initialized) {
                         try {
                             Thread.sleep(100);
@@ -301,16 +314,6 @@ public class Sidebar extends JPanel {
                     MainFrame.basePanel.add(MainFrame.contentPaneHolder, MainFrame.contentPaneConstraints);
 
                     SwingUtilities.updateComponentTreeUI(MainFrame.frame);
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
                 }
 
                 @Override
@@ -356,6 +359,16 @@ public class Sidebar extends JPanel {
             self.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
                     while(!Vinyls.initialized) {
                         try {
                             Thread.sleep(100);
@@ -377,16 +390,6 @@ public class Sidebar extends JPanel {
                     MainFrame.basePanel.add(MainFrame.contentPaneHolder, MainFrame.contentPaneConstraints);
 
                     SwingUtilities.updateComponentTreeUI(MainFrame.frame);
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
                 }
 
                 @Override
@@ -432,6 +435,16 @@ public class Sidebar extends JPanel {
             self.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
                     while(!Vinyls.initialized) {
                         try {
                             Thread.sleep(100);
@@ -453,16 +466,6 @@ public class Sidebar extends JPanel {
                     MainFrame.basePanel.add(MainFrame.contentPaneHolder, MainFrame.contentPaneConstraints);
 
                     SwingUtilities.updateComponentTreeUI(MainFrame.frame);
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
                 }
 
                 @Override

@@ -111,6 +111,16 @@ public class ArtistPanel extends JPanel {
                     this.addMouseListener(new MouseListener() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
+
+                        }
+
+                        @Override
+                        public void mousePressed(MouseEvent e) {
+
+                        }
+
+                        @Override
+                        public void mouseReleased(MouseEvent e) {
                             for (ArtistItem item : items) {
                                 item.setOpaque(false);
                                 item.label.setForeground(Color.black);
@@ -121,16 +131,6 @@ public class ArtistPanel extends JPanel {
                             if (coverFlow != null) MainFrame.panel.remove(coverFlow);
                             MainFrame.panel.add(coverFlow = new CoverFlow(artist), coverFlowConstraints);
                             SwingUtilities.updateComponentTreeUI(MainFrame.panel);
-                        }
-
-                        @Override
-                        public void mousePressed(MouseEvent e) {
-
-                        }
-
-                        @Override
-                        public void mouseReleased(MouseEvent e) {
-
                         }
 
                         @Override
