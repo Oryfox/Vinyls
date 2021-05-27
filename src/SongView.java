@@ -10,7 +10,7 @@ public class SongView extends JPanel {
         this.setOpaque(false);
 
         for (int i = 0; i < Detail.record.songs.length; i++) {
-            this.add(new SongItem(i + 1, Detail.record.songs[i], Detail.record.artist));
+            this.add(new SongItem(i + 1, Detail.record.songs[i], Detail.record.artist, Detail.record));
         }
     }
 
@@ -18,7 +18,7 @@ public class SongView extends JPanel {
 
         int number;
 
-        public SongItem(int number, String songTitle, String artist) {
+        public SongItem(int number, String songTitle, String artist, Record record) {
             this.setLayout(new BorderLayout());
             this.setMinimumSize(new Dimension(0,50));
             this.setOpaque(false);
@@ -31,7 +31,7 @@ public class SongView extends JPanel {
             this.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    new SongActions(songTitle, artist, e.getXOnScreen(), e.getYOnScreen());
+
                 }
 
                 @Override
@@ -41,7 +41,7 @@ public class SongView extends JPanel {
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
-
+                    new SongActions(songTitle, artist, record, e.getXOnScreen(), e.getYOnScreen());
                 }
 
                 @Override

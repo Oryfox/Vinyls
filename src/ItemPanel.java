@@ -75,6 +75,16 @@ public class ItemPanel extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
         if (e.getButton() == 1) {
             new Detail(self);
             hover = false;
@@ -85,16 +95,6 @@ public class ItemPanel extends JPanel implements MouseListener {
             repaint();
             new InformationEdit(self);
         }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
     }
 
     @Override

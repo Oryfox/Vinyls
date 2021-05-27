@@ -1,3 +1,4 @@
+import de.oryfox.genius.Genius2;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -234,7 +235,7 @@ public class Vinyls {
         }
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
+    @SuppressWarnings({"ResultOfMethodCallIgnored", "ConstantConditions"})
     private static void checkAndRepairFiles() {
         if (!home.exists()) {
             home.mkdirs();

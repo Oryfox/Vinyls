@@ -16,7 +16,7 @@ import java.util.Objects;
 
 public class MainFrame extends JFrame implements ComponentListener {
 
-    protected static MainFrame frame;
+    public static MainFrame frame;
     protected static JPanel basePanel;
     protected static JComponent panel;
     protected static JPanel contentPaneHolder;
@@ -25,8 +25,9 @@ public class MainFrame extends JFrame implements ComponentListener {
     static GridBagConstraints contentPaneConstraints = getContentPaneConstraints();
     static GridBagConstraints innerContentPaneConstraints = getInnerContentPaneConstraints();
     static GridBagConstraints artistPanelConstraints = getArtistPanelConstraints();
+    static GridBagConstraints playerPanelConstraints = getPlayerPanelConstraints();
 
-    static JTouchBar jTouchBar;
+    public static JTouchBar jTouchBar;
 
     public MainFrame(int width, int height) {
         super("Vinyls");
@@ -36,7 +37,7 @@ public class MainFrame extends JFrame implements ComponentListener {
         this.setBounds(Toolkit.getDefaultToolkit().getScreenSize().width / 2 - width / 2, Toolkit.getDefaultToolkit().getScreenSize().height / 2 - height / 2, width, height);
         this.setMinimumSize(new Dimension(450, 340));
         this.setJMenuBar(new MenuBar());
-        this.setIconImage(Vinyls.icon = Toolkit.getDefaultToolkit().getImage(Vinyls.class.getResource("icons/app.png")));
+        this.setIconImage(Vinyls.icon = Toolkit.getDefaultToolkit().getImage(Vinyls.class.getClassLoader().getResource("icons/app.png")));
 
         this.setBackground(Color.white);
         this.getContentPane().setBackground(Color.white);
@@ -118,17 +119,17 @@ public class MainFrame extends JFrame implements ComponentListener {
         c.gridx = 0;
         c.gridy = 0;
         c.weightx = 0;
-        c.weighty = 0;
+        c.weighty = 0.9;
         return c;
     }
 
     private static GridBagConstraints getContentPaneConstraints() {
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
+        c.gridx = 1;
         c.gridy = 0;
         c.weightx = 1;
-        c.weighty = 1;
-        c.gridx = 1;
+        c.weighty = 0.9;
         c.insets = new Insets(10, 0, 10, 10);
         return c;
     }
@@ -151,6 +152,18 @@ public class MainFrame extends JFrame implements ComponentListener {
         c.weightx = 1;
         c.weighty = 1;
         c.gridx = 1;
+        return c;
+    }
+
+    private static GridBagConstraints getPlayerPanelConstraints() {
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = 0;
+        c.gridy = 1;
+        c.weightx = 1;
+        c.weighty = 0.03;
+        c.gridwidth = 2;
+        c.insets = new Insets(0,10,10,10);
         return c;
     }
 

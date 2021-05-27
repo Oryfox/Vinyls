@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Objects;
 
 public class DependencyOverview extends JFrame {
 
@@ -29,6 +30,7 @@ public class DependencyOverview extends JFrame {
         dependencyHolder.add(new DependencyItem("mpatric/mp3agic", "https://github.com/mpatric/mp3agic"));
         dependencyHolder.add(new DependencyItem("google/material-design-icons", "https://github.com/google/material-design-icons"));
         dependencyHolder.add(new DependencyItem("ytdl-org/youtube-dl", "https://github.com/ytdl-org/youtube-dl/"));
+        dependencyHolder.add(new DependencyItem("twbs/icons", "https://github.com/twbs/icons"));
 
         JScrollPane scrollPane = new JScrollPane(dependencyHolder);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
@@ -50,7 +52,7 @@ public class DependencyOverview extends JFrame {
 
             JLabel titleLabel = new JLabel(title);
             try {
-                Font font = Font.createFont(Font.TRUETYPE_FONT, MainFrame.class.getResourceAsStream("fonts/AkayaTelivigala-Regular.ttf"));
+                Font font = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(MainFrame.class.getResourceAsStream("fonts/AkayaTelivigala-Regular.ttf")));
                 titleLabel.setFont(font.deriveFont(Font.PLAIN, 26));
             } catch (FontFormatException | IOException e) {
                 e.printStackTrace();

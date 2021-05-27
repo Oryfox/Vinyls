@@ -1,3 +1,4 @@
+import de.oryfox.genius.Genius2;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,15 +18,17 @@ public class SongActions extends JDialog implements WindowFocusListener {
 
     String songTitle;
     String songArtist;
+    Record record;
 
     JScrollPane scrollPane;
     SongActions songActions;
 
     static boolean ffmpegExists;
 
-    public SongActions(String songTitle, String songArtist, int x, int y) {
+    public SongActions(String songTitle, String songArtist, Record record, int x, int y) {
         this.songTitle = songTitle;
         this.songArtist = songArtist;
+        this.record = record;
         this.setUndecorated(true);
 
         this.setTitle(songTitle);
@@ -88,12 +91,7 @@ public class SongActions extends JDialog implements WindowFocusListener {
             panel.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    JSONObject json = new JSONObject(Genius2.makeClientRequest("https://api.genius.com/search?q=" + (songArtist + " " + songTitle).replaceAll(" ", "%20")));
-                    try {
-                        Desktop.getDesktop().browse(new URI(json.getJSONObject("response").getJSONArray("hits").getJSONObject(0).getJSONObject("result").getString("url")));
-                    } catch (IOException | URISyntaxException ex) {
-                        ex.printStackTrace();
-                    }
+
                 }
 
                 @Override
@@ -103,7 +101,12 @@ public class SongActions extends JDialog implements WindowFocusListener {
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
-
+                    JSONObject json = new JSONObject(Genius2.makeClientRequest("https://api.genius.com/search?q=" + (songArtist + " " + songTitle).replaceAll(" ", "%20")));
+                    try {
+                        Desktop.getDesktop().browse(new URI(json.getJSONObject("response").getJSONArray("hits").getJSONObject(0).getJSONObject("result").getString("url")));
+                    } catch (IOException | URISyntaxException ex) {
+                        ex.printStackTrace();
+                    }
                 }
 
                 @Override
@@ -141,7 +144,7 @@ public class SongActions extends JDialog implements WindowFocusListener {
             panel.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    scrollPane.setViewportView(new YouTubeSelector(true));
+
                 }
 
                 @Override
@@ -151,7 +154,7 @@ public class SongActions extends JDialog implements WindowFocusListener {
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
-
+                    scrollPane.setViewportView(new YouTubeSelector(true));
                 }
 
                 @Override
@@ -179,7 +182,7 @@ public class SongActions extends JDialog implements WindowFocusListener {
             panel.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    scrollPane.setViewportView(new YouTubeSelector(false));
+
                 }
 
                 @Override
@@ -189,7 +192,7 @@ public class SongActions extends JDialog implements WindowFocusListener {
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
-
+                    scrollPane.setViewportView(new YouTubeSelector(false));
                 }
 
                 @Override
@@ -263,16 +266,7 @@ public class SongActions extends JDialog implements WindowFocusListener {
             panel.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    try {
-                        if (justWatchOnYouTube) YouTube.watchById(item.getJSONObject("id").getString("videoId"));
-                        else {
-                            ((JPanel) scrollPane.getViewport().getView()).add(new JLabel("Another music already playing"),0);
-                            ((JPanel) scrollPane.getViewport().getView()).updateUI();
-                            new MusicPlayer(item.getJSONObject("id").getString("videoId"));
-                        }
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
+
                 }
 
                 @Override
@@ -282,7 +276,18 @@ public class SongActions extends JDialog implements WindowFocusListener {
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
-
+                    try {
+                        if (justWatchOnYouTube) YouTube.watchById(item.getJSONObject("id").getString("videoId"));
+                        else {
+                            ((JPanel) scrollPane.getViewport().getView()).add(new JLabel("Another music already playing"),0);
+                            ((JPanel) scrollPane.getViewport().getView()).updateUI();
+                            new PlayerPanel(item.getJSONObject("id").getString("videoId"), record, songTitle, songArtist);
+                            Detail.closeDetails();
+                            MainFrame.frame.requestFocus();
+                        }
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
                 }
 
                 @Override

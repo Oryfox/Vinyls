@@ -10,6 +10,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Objects;
 
 public class Detail extends JPanel {
 
@@ -258,7 +259,7 @@ public class Detail extends JPanel {
 
         JLabel label = new JLabel(Vinyls.bundle.getString("actions.goBack"), SwingConstants.CENTER);
         try {
-            Font font = Font.createFont(Font.TRUETYPE_FONT, Vinyls.class.getResourceAsStream("fonts/AvenirLTProMedium.otf"));
+            Font font = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(Vinyls.class.getResourceAsStream("fonts/AvenirLTProMedium.otf")));
             label.setFont(font.deriveFont(Font.PLAIN, 20));
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
@@ -272,7 +273,7 @@ public class Detail extends JPanel {
         panel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                closeDetails();
+
             }
 
             @Override
@@ -282,7 +283,7 @@ public class Detail extends JPanel {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-
+                closeDetails();
             }
 
             @Override
@@ -327,14 +328,7 @@ public class Detail extends JPanel {
         label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Detail.closeDetails();
-                Sidebar.SorterPanel.others[1].getMouseListeners()[0].mouseClicked(null);
-                for (ArtistPanel.AllArtists.ArtistPane.ArtistItem item : ArtistPanel.AllArtists.ArtistPane.items) {
-                    if (item.label.getText().equals(text)) {
-                        item.getMouseListeners()[0].mouseClicked(null);
-                        break;
-                    }
-                }
+
             }
 
             @Override
@@ -344,7 +338,14 @@ public class Detail extends JPanel {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-
+                Detail.closeDetails();
+                Sidebar.SorterPanel.others[1].getMouseListeners()[0].mouseClicked(null);
+                for (ArtistPanel.AllArtists.ArtistPane.ArtistItem item : ArtistPanel.AllArtists.ArtistPane.items) {
+                    if (item.label.getText().equals(text)) {
+                        item.getMouseListeners()[0].mouseClicked(null);
+                        break;
+                    }
+                }
             }
 
             @Override
@@ -389,11 +390,7 @@ public class Detail extends JPanel {
             this.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    try {
-                        Desktop.getDesktop().open(new java.io.File(Vinyls.cover.getAbsolutePath() + "/" + record.id + ".png"));
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
+
                 }
 
                 @Override
@@ -403,7 +400,11 @@ public class Detail extends JPanel {
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
-
+                    try {
+                        Desktop.getDesktop().open(new java.io.File(Vinyls.cover.getAbsolutePath() + "/" + record.id + ".png"));
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
 
                 @Override

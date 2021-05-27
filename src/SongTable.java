@@ -214,6 +214,16 @@ public class SongTable extends JScrollPane {
             textField.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
                     JFileChooser chooser = new JFileChooser();
                     try {
                         chooser = new JFileChooser();
@@ -229,16 +239,6 @@ public class SongTable extends JScrollPane {
                         textField.setText(chooser.getSelectedFile().getAbsolutePath());
                     }
                     frame.setVisible(true);
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
                 }
 
                 @Override

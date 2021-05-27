@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class InformationEdit extends JFrame {
 
@@ -197,7 +198,7 @@ public class InformationEdit extends JFrame {
                     super.paintComponent(gr);
 
                     new ImageIcon(itemPanel.record.cover.getImage().getScaledInstance(450,450,Image.SCALE_SMOOTH)).paintIcon(this,gr,0,0);
-                    if (hover) new ImageIcon(Vinyls.class.getResource("gui/overlayEDIT.png")).paintIcon(this,gr,0,0);
+                    if (hover) new ImageIcon(Objects.requireNonNull(Vinyls.class.getResource("gui/overlayEDIT.png"))).paintIcon(this,gr,0,0);
                 }
             };
             panel.setOpaque(false);
@@ -205,6 +206,16 @@ public class InformationEdit extends JFrame {
             panel.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
                     FileDialog dialog = new FileDialog(self);
                     dialog.setMultipleMode(false);
                     dialog.setDirectory(System.getProperty("user.home") + "/Desktop");
@@ -219,16 +230,6 @@ public class InformationEdit extends JFrame {
                         } else itemPanel.record.cover = new ImageIcon(imageFile.getAbsolutePath());
                         SwingUtilities.updateComponentTreeUI(self);
                     }
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
                 }
 
                 @Override
