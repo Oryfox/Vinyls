@@ -11,36 +11,56 @@ import java.io.IOException;
 public class PlayerPanel extends JPanel {
 
     static PlayerPanel lastPlayer;
-    private JLabel loadingLabel;
+    private final JLabel loadingLabel;
 
-    Image image;
     String title;
     String artist;
 
     Music music;
 
-    JPanel spacer;
+    JPanel imageLabel;
 
-    public PlayerPanel(String videoID, Image coverImage, String title, String artist) {
+    public PlayerPanel(String videoID, Record record, String title, String artist) {
         if (lastPlayer != null && lastPlayer.music != null) {
             lastPlayer.music.stop();
             MainFrame.basePanel.remove(lastPlayer);
         }
 
-        image = coverImage;
         this.title = title;
         this.artist = artist;
 
+        this.setMinimumSize(new Dimension(0, 70));
+        this.setPreferredSize(new Dimension(0,70));
+
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        this.setBackground(new Color(0, true));
+        this.setBackground(OryColors.BLUE);
         this.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 
-        spacer = new JPanel();
-        spacer.setOpaque(false);
-        spacer.setPreferredSize(new Dimension(120, 0));
-        spacer.setMaximumSize(new Dimension(120, Integer.MAX_VALUE));
+        imageLabel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                this.setPreferredSize(new Dimension(100,Integer.MAX_VALUE));
+                this.setMaximumSize(new Dimension(100,Integer.MAX_VALUE));
+                g.setClip(new RoundRectangle2D.Double(5,5,imageLabel.getHeight() - 10,imageLabel.getHeight() - 10,25,25));
 
-        this.add(spacer);
+                Image sized = record.miniCover.getImage().getScaledInstance(imageLabel.getHeight() - 10, imageLabel.getHeight() - 10, Image.SCALE_DEFAULT);
+                MediaTracker tracker = new MediaTracker(new java.awt.Container());
+                tracker.addImage(sized, 0);
+                try {
+                    tracker.waitForAll();
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException("Image loading interrupted", ex);
+                }
+                g.drawImage(sized, 5, 5, null);
+            }
+        };
+        imageLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                new Detail(record.itemPanel);
+            }
+        });
+        this.add(imageLabel);
 
         JLabel titleLabel = new JLabel(title);
         titleLabel.setFont(new Font(titleLabel.getFont().getName(), Font.BOLD, 20));
@@ -97,6 +117,8 @@ public class PlayerPanel extends JPanel {
             }
         });
         this.add(backwardLabel);
+
+        this.add(Box.createRigidArea(new Dimension(15,0)));
 
         JLabel playLabel = new JLabel(Icons.play);
         playLabel.setPreferredSize(new Dimension(70, 0));
@@ -176,10 +198,10 @@ public class PlayerPanel extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        g.setColor(OryColors.BLUE);
-        g.fillRoundRect(0,0,getWidth(),getHeight(),25,25);
+        g.setClip(new RoundRectangle2D.Double(0,0,getWidth(),getHeight(),25,25));
+        super.paintComponent(g);
 
-        BufferedImage i = new BufferedImage(this.getHeight() - 10, this.getHeight() - 10, BufferedImage.TYPE_INT_ARGB);
+        /*BufferedImage i = new BufferedImage(this.getHeight() - 10, this.getHeight() - 10, BufferedImage.TYPE_INT_ARGB);
         Graphics2D gr = i.createGraphics();
         gr.setClip(new RoundRectangle2D.Double(0,0,i.getWidth(),i.getHeight(),25,25));
 
@@ -195,7 +217,7 @@ public class PlayerPanel extends JPanel {
         gr.drawImage(sized,0,0,null);
         gr.dispose();
 
-        g.drawImage(i, 5, 5, null);
+        g.drawImage(i, 5, 5, null);*/
     }
 }
 

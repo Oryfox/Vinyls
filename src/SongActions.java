@@ -18,17 +18,17 @@ public class SongActions extends JDialog implements WindowFocusListener {
 
     String songTitle;
     String songArtist;
-    Image coverImage;
+    Record record;
 
     JScrollPane scrollPane;
     SongActions songActions;
 
     static boolean ffmpegExists;
 
-    public SongActions(String songTitle, String songArtist, Image coverImage, int x, int y) {
+    public SongActions(String songTitle, String songArtist, Record record, int x, int y) {
         this.songTitle = songTitle;
         this.songArtist = songArtist;
-        this.coverImage = coverImage;
+        this.record = record;
         this.setUndecorated(true);
 
         this.setTitle(songTitle);
@@ -281,7 +281,7 @@ public class SongActions extends JDialog implements WindowFocusListener {
                         else {
                             ((JPanel) scrollPane.getViewport().getView()).add(new JLabel("Another music already playing"),0);
                             ((JPanel) scrollPane.getViewport().getView()).updateUI();
-                            new PlayerPanel(item.getJSONObject("id").getString("videoId"), coverImage, songTitle, songArtist);
+                            new PlayerPanel(item.getJSONObject("id").getString("videoId"), record, songTitle, songArtist);
                             Detail.closeDetails();
                             MainFrame.frame.requestFocus();
                         }
