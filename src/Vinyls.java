@@ -15,7 +15,8 @@ import java.util.*;
 @SuppressWarnings("BusyWait")
 public class Vinyls {
 
-    static boolean mac = System.getProperty("os.name").toLowerCase().contains("mac"); //Bonus features due to lack of libraries
+    static String version = "ver.1.1";
+    static boolean mac = System.getProperty("os.name").toLowerCase().contains("mac"); //Optimizing gui feeling and adding touch bar support
 
     static boolean lowSpecMode = false;
 
@@ -26,14 +27,14 @@ public class Vinyls {
     static File cover = new File(home.getAbsolutePath() + "/cover");
     static File coverDownsized = new File(cover.getAbsolutePath() + "/downsized");
     static File ffmpeg = new File(lib.getAbsolutePath() + "/ffmpeg");
-    static File youtubeDL = new File(lib.getAbsolutePath() + "/youtube-dl");
-    static File loginSuccess = new File(lib.getAbsolutePath() + "/loginSuccess.html");
+    static File youtubeDL = new File(lib.getAbsolutePath() + "/youtube-dl" + version);
+    static File loginSuccess = new File(lib.getAbsolutePath() + "/loginSuccess.html" + version);
     static File runJar = new File(home.getAbsolutePath() + "/run.jar");
     static File running = new File(home.getAbsolutePath() + "/running");
     static File hopIn = new File(lib.getAbsolutePath() + "/HopIn.jar");
     static File service = new File(System.getProperty("user.home") + "/Library/Services/Schallplatte hinzuf\u00fcgen.workflow");
     static File cache = new File(home.getAbsolutePath() + "/cache");
-    static File help = new File(home.getAbsolutePath() + "/help.pdf");
+    static File help = new File(home.getAbsolutePath() + "/help.pdf" + version);
 
     protected static String youtubeApiKey = "";
     protected static String lastFMApiKey = "";
@@ -49,7 +50,6 @@ public class Vinyls {
 
     static ResourceBundle bundle;
 
-    static String version = "v1.0";
     static String today;
 
     static ServerSocket serverSocket;
@@ -393,21 +393,39 @@ public class Vinyls {
         }
         if (!loginSuccess.exists()) {
             try {
-                FileWriter writer = new FileWriter(loginSuccess);
-                writer.write("<html>\n" +
-                        "<head>\n" +
-                        "<title>Borealis Vinyls</title>\n" +
-                        "</head>\n" +
-                        "<body>\n" +
-                        "<h1>Login successful!</h1>\n" +
-                        "<h2>You can close this tab now</h2>\n" +
-                        "</body>\n" +
-                        "</html>\n");
-                writer.close();
+                InputStream inputStream = Vinyls.class.getResourceAsStream("lib/loginSuccess.html");
+                FileOutputStream outputStream = new FileOutputStream(loginSuccess);
+                byte[] bytes = new byte[16 * 1024];
+
+                int count;
+                while ((count = inputStream.read(bytes)) > 0) {
+                    outputStream.write(bytes, 0, count);
+                }
+                inputStream.close();
+                outputStream.close();
+
+                System.out.println("Extracted login success html");
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println("Created login success");
+        }
+        if (!new File(lib.getAbsolutePath() + "/background.jpg").exists()) {
+            try {
+                InputStream inputStream = Vinyls.class.getResourceAsStream("lib/background.jpg");
+                FileOutputStream outputStream = new FileOutputStream(lib.getAbsolutePath() + "/background.jpg");
+                byte[] bytes = new byte[16 * 1024];
+
+                int count;
+                while ((count = inputStream.read(bytes)) > 0) {
+                    outputStream.write(bytes, 0, count);
+                }
+                inputStream.close();
+                outputStream.close();
+
+                System.out.println("Extracted background image");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         if (!help.exists()) {
             try {
@@ -432,6 +450,25 @@ public class Vinyls {
                 Files.copy(new File(Vinyls.class.getProtectionDomain().getCodeSource().getLocation().toURI()).toPath(), runJar.toPath());
             } catch (URISyntaxException | IOException e) {
                 e.printStackTrace();
+            }
+        }
+
+        for (java.io.File f : home.listFiles()) {
+            if (f.getName().contains("ver.") && !f.getName().contains(version)) {
+                try {
+                    Files.deleteIfExists(f.toPath());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        for (java.io.File f : lib.listFiles()) {
+            if (f.getName().contains("ver.") && !f.getName().contains(version)) {
+                try {
+                    Files.deleteIfExists(f.toPath());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -689,7 +726,7 @@ public class Vinyls {
                 }
             }
             break;
-            case "v0.5":
+            case "v0.5": {
                 contents.put("version", "v0.5.1");
                 JSONObject apiKeys = new JSONObject();
 
@@ -716,7 +753,8 @@ public class Vinyls {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                break;
+            }
+            break;
             case "v0.5.1": {
                 contents.put("version", "v0.6");
                 if (Vinyls.mac) {
@@ -737,6 +775,17 @@ public class Vinyls {
             break;
             case "v0.6": {
                 contents.put("version", "v1.0");
+                try {
+                    FileWriter writer = new FileWriter(contentsJSON);
+                    writer.write(contents.toString());
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
+            case "v1.0": {
+                contents.put("version", "ver.1.1");
                 try {
                     FileWriter writer = new FileWriter(contentsJSON);
                     writer.write(contents.toString());

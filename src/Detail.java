@@ -482,54 +482,6 @@ public class Detail extends JPanel {
                         }
                     }
                 }));
-
-                if (Vinyls.mac) this.add(new MainFrame.MenuBar.Item("Download ", e -> {
-                    if (record.songs != null & record.getThisSongCount() > 0) {
-                        DownloadItem[] downloadItems = new DownloadItem[record.songs.length];
-
-                        for (int i = 0; i < record.songs.length; i++) {
-                            if (record.songs[i] != null) {
-                                downloadItems[i] = new DownloadItem(YouTube.searchID(record.artist + " " + record.songs[i]), (Integer.toString(i + 1).length() == 1 ? "0" + (i + 1) : i + 1) + " " + record.songs[i] + " untagged.mp3");
-                            }
-                        }
-
-                        try {
-                            YouTubeDL.downloadMultiple(new java.io.File(System.getProperty("user.home") + "/Downloads/" + record.artist + " - " + record.title), downloadItems);
-
-                            java.io.File[] files = new java.io.File(System.getProperty("user.home") + "/Downloads/" + record.artist + " - " + record.title).listFiles();
-                            String[] splitted;
-                            MusicTag musicTag;
-
-                            if (files != null) {
-                                for (java.io.File f : files) {
-                                    splitted = f.getName().split("\\s");
-
-                                    try {
-                                        musicTag = new MusicTag(f.getAbsolutePath());
-
-                                        musicTag.setArtist(record.artist);
-                                        musicTag.setTitle(splitted[1]);
-                                        musicTag.setTrack(splitted[0]);
-                                        musicTag.setYear(Integer.toString(record.releaseYear));
-                                        musicTag.setCoverArt(Vinyls.cover.getAbsolutePath() + "/" + record.id + ".png");
-
-                                        musicTag.save();
-
-                                        Files.delete(f.toPath());
-                                    } catch (Exception ex) {
-                                        ex.printStackTrace();
-                                    }
-                                }
-                            }
-
-                            Files.copy(new java.io.File(Vinyls.cover.getAbsolutePath() + "/" + record.id + ".png").toPath(), new java.io.File(System.getProperty("user.home") + "/Downloads/" + record.artist + " - " + record.title + "/cover.png").toPath());
-                        } catch (IOException | InterruptedException ioException) {
-                            ioException.printStackTrace();
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(MainFrame.frame, Vinyls.bundle.getString("noRegisteredSongs"), Vinyls.bundle.getString("noRegisteredSongs.title"), JOptionPane.WARNING_MESSAGE);
-                    }
-                }));
             }
         }
     }

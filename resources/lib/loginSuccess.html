@@ -1,0 +1,42 @@
+<html>
+
+<head>
+    <title>Borealis Vinyls</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</head>
+<style>
+    .bg-image {
+        background-size: cover;
+        background-image: url('background.jpg');
+        background-position: center;
+        background-repeat: inherit;
+        height: 100%;
+    }
+
+    .blur {
+        filter: blur(4px);
+    }
+
+    .noblur {
+        filter: blur(0);
+    }
+</style>
+
+<body style="position: relative; padding-top: 14%;">
+    <div class="container-fluid bg-image" style="position: absolute; top:0px; right:0px; bottom:0px; left:0px;"></div>
+    <div class="container-fluid bg-image blur" style="position: absolute; top:0px; right:0px; bottom:0px; left:0px;"></div>
+    <div class="container rounded shadow noblur" style="background-color:lavenderblush;opacity: 0.9;padding: 20;">
+        <div class="noblur" style="opacity: 1.0;">
+            <h1 class="noblur" style="text-align: center;">Login successful!</h1>
+            <h2 class="noblur" style="text-align: center;">You can close this tab now</h2>
+        </div>
+    </div>
+</body>
+
+</html>
